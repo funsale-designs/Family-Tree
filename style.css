@@ -1,0 +1,161 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+}
+
+#familyTreeContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Base styles for the tree list */
+.family-list {
+    list-style: none;
+    padding-left: 0;
+    position: relative;
+}
+
+.family-list li {
+    position: relative;
+    margin-bottom: 25px; /* Space between siblings */
+    padding-left: 30px; /* Space for the connecting lines */
+}
+
+/* Styles for the person card */
+.person-card {
+    background-color: #e6f7ff; /* Light blue */
+    border: 1px solid #91d5ff; /* Slightly darker blue border */
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: inline-flex; /* Use flexbox for content alignment */
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer; /* Indicate it's clickable */
+}
+
+.person-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #d6f4ff; /* Lighter on hover */
+}
+
+.person-icon {
+    font-size: 1.2em; /* Adjust icon size */
+    color: #1890ff; /* Blue icon */
+}
+
+.person-details strong {
+    color: #0056b3; /* Darker blue for name */
+}
+
+.person-details span {
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Connecting lines */
+/* Vertical line for parent-child connection */
+.family-list li::before {
+    content: '';
+    position: absolute;
+    left: 15px; /* Half of padding-left - thickness of line */
+    top: -15px; /* Start above current element */
+    bottom: calc(50% + 15px); /* End mid-way for last child or higher for others */
+    width: 2px;
+    background-color: #a0d911; /* Greenish line */
+    z-index: 1; /* Ensure lines are behind cards if needed */
+}
+
+/* Horizontal line for connecting to the current person */
+.family-list li::after {
+    content: '';
+    position: absolute;
+    left: 15px; /* Same left as vertical line */
+    top: 50%;
+    width: 15px; /* Length of horizontal line */
+    height: 2px;
+    background-color: #a0d911;
+    transform: translateY(-1px); /* Align with the center of the card */
+    z-index: 1;
+}
+
+/* Adjust lines for root elements (top-level) */
+.family-list > li::before,
+.family-list > li::after {
+    display: none; /* No lines for the very first generation */
+}
+
+/* Adjust vertical line for the last child in a list */
+.family-list li:last-child::before {
+    bottom: calc(50% - 12px); /* Stop line precisely at the parent connection point */
+    /* top: -15px; Keep top same */
+    height: calc(50% + 15px); /* Adjust height to connect to parent */
+}
+
+/* Nested lists (children) */
+.family-list ul {
+    list-style: none;
+    padding-left: 30px; /* Indent children further */
+    margin-top: 15px; /* Space between parent and children list */
+}
+
+/* Tooltip for more details */
+.tooltip {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 0;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%; /* Position above the person card */
+    left: 50%;
+    margin-left: -100px; /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-size: 0.9em;
+    line-height: 1.4;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.person-card:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Icon for gender/details */
+.icon-male::before { content: '♂'; margin-right: 5px; color: #1890ff; }
+.icon-female::before { content: '♀'; margin-right: 5px; color: #eb2f96; }
+.icon-unknown::before { content: '●'; margin-right: 5px; color: #8c8c8c; } /* Placeholder if gender is not specified */
+
+/* Optional: for a very compact tree, you might use flexbox for deeper levels */
+/* .family-list ul { display: flex; flex-wrap: wrap; justify-content: flex-start; } */
+/* .family-list ul li { margin-right: 20px; flex: 0 0 auto; } */
