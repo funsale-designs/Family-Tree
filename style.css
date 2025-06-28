@@ -28,24 +28,35 @@ h1 {
     position: relative;
 }
 
-.family-list li {
+/* Each list item represents a "unit" that can have children (e.g., a couple or a single parent) */
+.family-list > li {
     position: relative;
-    margin-bottom: 25px; /* Space between siblings */
+    margin-bottom: 25px; /* Space between sibling "units" */
     padding-left: 30px; /* Space for the connecting lines */
+}
+
+/* Container for a person and their spouse */
+.person-spouse-group {
+    display: inline-flex; /* Arrange person and spouse horizontally */
+    gap: 15px; /* Space between person and spouse cards */
+    align-items: flex-start; /* Align cards at the top */
+    margin-bottom: 5px; /* Little space before children list, if any */
 }
 
 /* Styles for the person card */
 .person-card {
     background-color: #e6f7ff; /* Light blue */
     border: 1px solid #91d5ff; /* Slightly darker blue border */
-    padding: 12px 20px;
+    padding: 10px 15px; /* Slightly smaller padding */
     border-radius: 8px;
     display: inline-flex; /* Use flexbox for content alignment */
-    align-items: center;
-    gap: 10px; /* Space between icon and text */
+    flex-direction: column; /* Stack icon and details vertically within card */
+    align-items: flex-start; /* Align text to the left */
+    gap: 5px; /* Space between icon/details */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer; /* Indicate it's clickable */
+    min-width: 150px; /* Ensure cards have a consistent minimum width */
 }
 
 .person-card:hover {
@@ -59,30 +70,39 @@ h1 {
     color: #1890ff; /* Blue icon */
 }
 
+.person-details {
+    font-size: 0.9em;
+}
+
 .person-details strong {
     color: #0056b3; /* Darker blue for name */
+    font-size: 1.1em; /* Slightly larger name */
+    display: block; /* Make name a block element for its own line */
+    margin-bottom: 3px;
 }
 
 .person-details span {
-    font-size: 0.9em;
+    font-size: 0.85em;
     color: #555;
+    display: block; /* Make birth year/spouse details block elements */
 }
 
 /* Connecting lines */
 /* Vertical line for parent-child connection */
-.family-list li::before {
+/* Adjusted for the 'li' element representing the "parent unit" */
+.family-list > li::before {
     content: '';
     position: absolute;
     left: 15px; /* Half of padding-left - thickness of line */
-    top: -15px; /* Start above current element */
-    bottom: calc(50% + 15px); /* End mid-way for last child or higher for others */
+    top: 0; /* Start at the top of the li */
+    bottom: calc(50% - 15px); /* End mid-way, adjust for card height */
     width: 2px;
     background-color: #a0d911; /* Greenish line */
     z-index: 1; /* Ensure lines are behind cards if needed */
 }
 
-/* Horizontal line for connecting to the current person */
-.family-list li::after {
+/* Horizontal line for connecting to the current person/couple unit */
+.family-list > li::after {
     content: '';
     position: absolute;
     left: 15px; /* Same left as vertical line */
@@ -90,47 +110,60 @@ h1 {
     width: 15px; /* Length of horizontal line */
     height: 2px;
     background-color: #a0d911;
-    transform: translateY(-1px); /* Align with the center of the card */
+    transform: translateY(-1px); /* Align with the center of the card group */
     z-index: 1;
 }
 
-/* Adjust lines for root elements (top-level) */
-.family-list > li::before,
-.family-list > li::after {
-    display: none; /* No lines for the very first generation */
+/* Adjust lines for root elements (top-level) - should not have incoming lines */
+.family-list > li:first-child::before,
+.family-list > li:first-child::after {
+    display: none; /* No incoming lines for the very first top-level element */
 }
 
-/* Adjust vertical line for the last child in a list */
-.family-list li:last-child::before {
-    bottom: calc(50% - 12px); /* Stop line precisely at the parent connection point */
-    /* top: -15px; Keep top same */
-    height: calc(50% + 15px); /* Adjust height to connect to parent */
+/* Adjust vertical line for the last child in a list (connects upwards) */
+.family-list ul li:last-child::before {
+    height: calc(50% + 15px); /* Shorten the line to meet the parent's horizontal line */
+    bottom: 0; /* Ensures it starts from top of current li and goes up */
 }
+
 
 /* Nested lists (children) */
 .family-list ul {
     list-style: none;
     padding-left: 30px; /* Indent children further */
-    margin-top: 15px; /* Space between parent and children list */
+    margin-top: 15px; /* Space between parent unit and children list */
+    position: relative; /* For nested line positioning */
+}
+
+/* Line connecting a parent's children list to the first child */
+.family-list > li > ul::before {
+    content: '';
+    position: absolute;
+    left: 0; /* Start from the left edge of the ul */
+    top: -15px; /* Position it above the first child's card */
+    width: 2px;
+    height: 30px; /* Small vertical line from parent horizontal line down to child group */
+    background-color: #a0d911;
+    z-index: 1;
 }
 
 /* Tooltip for more details */
 .tooltip {
     visibility: hidden;
-    width: 200px;
+    width: 220px; /* Increased width for more info */
     background-color: #333;
     color: #fff;
-    text-align: center;
+    text-align: left; /* Align text to left */
     border-radius: 6px;
-    padding: 10px 0;
+    padding: 10px;
     position: absolute;
     z-index: 10;
-    bottom: 125%; /* Position above the person card */
+    bottom: calc(100% + 10px); /* Position above the person card with some space */
     left: 50%;
-    margin-left: -100px; /* Center the tooltip */
+    transform: translateX(-50%); /* Center the tooltip horizontally */
     opacity: 0;
     transition: opacity 0.3s, visibility 0.3s;
-    font-size: 0.9em;
+    font-size: 0.85em; /* Slightly smaller font for tooltip */
     line-height: 1.4;
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
@@ -156,6 +189,8 @@ h1 {
 .icon-female::before { content: '♀'; margin-right: 5px; color: #eb2f96; }
 .icon-unknown::before { content: '●'; margin-right: 5px; color: #8c8c8c; } /* Placeholder if gender is not specified */
 
-/* Optional: for a very compact tree, you might use flexbox for deeper levels */
-/* .family-list ul { display: flex; flex-wrap: wrap; justify-content: flex-start; } */
-/* .family-list ul li { margin-right: 20px; flex: 0 0 auto; } */
+/* Specific styling for spouse cards if needed (e.g., different background) */
+.person-card.spouse {
+    background-color: #f0f8ff; /* Slightly different background for spouse */
+    border-color: #b3e0ff;
+}
