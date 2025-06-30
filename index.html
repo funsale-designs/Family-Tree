@@ -3,16 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Five-Generation Family Tree</title>
+    <title>Your Vibrant Blog</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/liSpTRXLzVj9hLhG4Gv1v052n05sJjQ7/P5C5X5p1/yB1b6w3A5Z5O5Q5E5Q5" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <h1>Our Family Legacy - 5 Generations</h1>
 
-    <div id="familyTreeContainer">
-        <p>Loading family tree...</p>
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <a href="#">Your Blog Name</a>
+            </div>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                <div class="hamburger-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-nav-overlay">
+        <div class="close-btn">&times;</div>
+        <ul class="mobile-nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
     </div>
 
-    <script src="script.js"></script>
+    <section class="hero-section">
+        <div class="container">
+            <h1>Dive Into the Vibrant World of [Your Niche]!</h1>
+            <p>Exploring life, trends, and everything in between for young adults.</p>
+            <a href="#" class="btn btn-primary">Start Reading</a>
+        </div>
+    </section>
+
+    <section class="blog-posts-section">
+        <div class="container">
+            <h2>Latest Posts</h2>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <img src="https://via.placeholder.com/400x250/FF1493/FFFFFF?text=Post+Image+1" alt="Blog Post Image">
+                    <h3><a href="#">The Ultimate Guide to Digital Nomad Life</a></h3>
+                    <p class="post-meta">By <span class="author-name">Jane Doe</span> | June 28, 2025</p>
+                    <p>Discover the secrets to working remotely and traveling the world. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                    <a href="#" class="read-more">Read More &rarr;</a>
+                </div>
+                <div class="blog-card">
+                    <img src="https://via.placeholder.com/400x250/0000FF/FFFFFF?text=Post+Image+2" alt="Blog Post Image">
+                    <h3><a href="#">5 Apps Every Young Adult Needs in 2025</a></h3>
+                    <p class="post-meta">By <span class="author-name">John Smith</span> | June 25, 2025</p>
+                    <p>Boost your productivity, creativity, and well-being with these must-have apps. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
+                    <a href="#" class="read-more">Read More &rarr;</a>
+                </div>
+                <div class="blog-card">
+                    <img src="https://via.placeholder.com/400x250/32CD32/FFFFFF?text=Post+Image+3" alt="Blog Post Image">
+                    <h3><a href="#">Mindfulness for the Modern Generation</a></h3>
+                    <p class="post-meta">By <span class="author-name">Sarah Lee</span> | June 22, 2025</p>
+                    <p>Simple techniques to de-stress and stay present in a fast-paced world. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                    <a href="#" class="read-more">Read More &rarr;</a>
+                </div>
+                <div class="blog-card">
+                    <img src="https://via.placeholder.com/400x250/FF00FF/FFFFFF?text=Post+Image+4" alt="Blog Post Image">
+                    <h3><a href="#">Budget Travel Hacks for Students</a></h3>
+                    <p class="post-meta">By <span class="author-name">Jane Doe</span> | June 20, 2025</p>
+                    <p>See the world without breaking the bank with these clever tips. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore...</p>
+                    <a href="#" class="read-more">Read More &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Your Vibrant Blog. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.hamburger-menu').addEventListener('click', function() {
+            document.querySelector('.mobile-nav-overlay').classList.add('open');
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.querySelector('.mobile-nav-overlay').classList.remove('open');
+        });
+
+        // Close overlay when clicking outside (optional, but good UX)
+        document.querySelector('.mobile-nav-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('open');
+            }
+        });
+    </script>
+
 </body>
 </html>
